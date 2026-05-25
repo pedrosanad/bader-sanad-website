@@ -4,19 +4,14 @@ import { execSync } from "child_process";
 // Build frontend
 execSync("vite build", { stdio: "inherit" });
 
-// Build server
+// Build server — keep all node_modules external, only bundle our source
 await build({
   entryPoints: ["server/index.ts"],
   bundle: true,
   platform: "node",
   format: "cjs",
   outfile: "dist/index.cjs",
-  external: [
-    "pg-native",
-    "canvas",
-    "bufferutil",
-    "utf-8-validate",
-  ],
+  packages: "external",
 });
 
 console.log("Build complete");
